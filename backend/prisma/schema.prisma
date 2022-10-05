@@ -44,6 +44,7 @@ model Product {
 
   @@map("products")
   category_id String
+  items Item[]
 }
 
 model Order {
@@ -55,6 +56,20 @@ model Order {
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
-
   @@map("orders")
+  items Item[]
+}
+
+model Item {
+  id String @id @default(uuid())
+  amount Int
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  order Order @relation(fields: [order_id], references: [id])
+  product Product @relation(fields: [product_id], references: [id])
+
+  @@map("items")
+  order_id String
+  product_id String
 }
