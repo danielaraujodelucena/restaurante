@@ -45,3 +45,16 @@ model Product {
   @@map("products")
   category_id String
 }
+
+model Order {
+  id String @id @default(uuid())
+  table Int
+  status Boolean @default(false)
+  draft Boolean @default(true)
+  name String?
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+
+  @@map("orders")
+}
