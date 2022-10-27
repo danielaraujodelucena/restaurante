@@ -4,6 +4,7 @@ import styles from '../../styles/home.module.scss'
 
 import logoRestaurante from '../../public/logo-restaurante.png'
 import { Input } from "../components/ui/Input"
+import { Button } from "../components/ui/Button"
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
           <form>
             <Input placeholder="Email" type="text" />
             <Input placeholder="Senha" type="password" />
+            <Button type="submit" loading={false}> Acessar </Button>
           </form>
         </div>
       </div>
