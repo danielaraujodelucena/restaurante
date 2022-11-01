@@ -6,6 +6,8 @@ import logoRestaurante from '../../public/logo-restaurante.png'
 import { Input } from "../components/ui/Input"
 import { Button } from "../components/ui/Button"
 
+import Link from "next/link"
+
 export default function Home() {
   return (
     <>
@@ -22,7 +24,9 @@ export default function Home() {
             <Button type="submit" loading={false}> Acessar </Button>
           </form>
 
-          <a className={styles.text}>Não possui uma conta? Cadastre-se</a>
+          <Link href="/signup" className={styles.text}>
+            Não possui uma conta? Cadastre-se
+          </Link>
 
         </div>
       </div>
