@@ -1,12 +1,12 @@
 import Head from "next/head"
 import Image from "next/image"
-import styles from '../../../styles/home.module.scss'
+import Link from "next/link"
 
+import styles from '../../../styles/home.module.scss'
 import logoRestaurante from '../../../public/logo-restaurante.png'
 import { Input } from "../../components/ui/Input"
 import { Button } from "../../components/ui/Button"
-
-import Link from "next/link"
+import { canSSRAuth } from "../../utils/canSSRAuth"
 
 export default function Dashboard() {
   return (
@@ -20,3 +20,9 @@ export default function Dashboard() {
     </>
   )
 }
+
+export const getServerSideProps = canSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})
