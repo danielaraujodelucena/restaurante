@@ -44,7 +44,7 @@ export default function Home() {
         <title>Seja bem-vindo</title>
       </Head>
       <div className={styles.containerCenter}>
-        <Image src={logoRestaurante} alt="Logo do restaurante" width={150} />
+        <Image src={logoRestaurante} alt="Logo do restaurante" width={200} />
       
         <div className={styles.login}>
           <form onSubmit={handleLogin}>

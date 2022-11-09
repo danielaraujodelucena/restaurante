@@ -48,7 +48,7 @@ export default function SignUp() {
         <title>Faça o seu cadastro agora</title>
       </Head>
       <div className={styles.containerCenter}>
-        <Image src={logoRestaurante} alt="Logo do restaurante" width={150} />
+        <Image src={logoRestaurante} alt="Logo do restaurante" width={200} />
       
         <div className={styles.login}>
           <h1>Criando sua conta</h1>
