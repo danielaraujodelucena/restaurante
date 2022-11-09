@@ -1,13 +1,15 @@
 import { useContext, FormEvent, useState } from "react"
 import Head from "next/head"
 import Image from "next/image"
+import Link from "next/link"
 import styles from '../../styles/home.module.scss'
 
 import logoRestaurante from '../../public/logo-restaurante.png'
 import { Input } from "../components/ui/Input"
 import { Button } from "../components/ui/Button"
 import { AuthContext } from "../contexts/AuthContext"
-import Link from "next/link"
+
+import { canSSRGuest } from "../utils/canSSRGuest"
 
 export default function Home() {
   const { signIn } = useContext(AuthContext);
@@ -76,3 +78,21 @@ export default function Home() {
     </>
   )
 }
+
+export const getServerSideProps = canSSRGuest(async (ctx) => {
+  /*
+    console.log("Testando Server Side Props");
+
+    Esse console é exibido no terminal do backend (servidor) antes
+    do carregamento da tela de login. Ou seja, antes de carregar o front,
+    batemos no backend.
+
+    Portanto, podemos pegar alguma informação no backend para utilizar
+    na renderizão dessa tela (frontend).
+  */
+
+  return {
+    props: {}
+  }
+
+})
