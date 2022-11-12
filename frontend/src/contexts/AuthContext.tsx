@@ -7,6 +7,14 @@ import { toast } from 'react-toastify';
 type AuthContextData = {
     user: UserProps;
     isAuthenticated: boolean;
+
+    /*
+        signIn é um função deve RECEBER umas props 
+        iniciais (credentials) que devem obdecer a 
+        tipagem SignInProps. signIn ainda RETORNA
+        uma Promise void, ou seja, uma Promise
+        que não retorna nada. 
+    */
     signIn: (credentials: SignInProps) => Promise<void>;
     signOut: () => void;
     signUp: (credentials: SignUpProps) => Promise<void>;
@@ -33,6 +41,14 @@ type AuthProviderProps = {
     children: ReactNode;
 }
 
+/* 
+    Criando o contexto. 
+    
+    O context começa com o valor defult {}, ou seja,
+    um objeto vazio. Entretanto, ele deve respeitar
+    a tipagem AuthContextData.
+*/
+
 export const AuthContext = createContext({} as AuthContextData)
 
 export function signOut() {
@@ -44,9 +60,21 @@ export function signOut() {
     }
 }
 
+/*
+    Após criar o contexto, é necessário disponibilizá-lo
+    através de um Provider, tornando as propriedades de
+    AuthContextData acessíveis para todos os 
+    componentes do projeto.
+*/
+
 export function AuthProvider({ children }: AuthProviderProps){
     const [user, setUser] = useState<UserProps>();
-    const isAuthenticated = !!user;
+
+    /* 
+        Converte a variável user para booleano.
+        Se não tiver usuário é false.
+    */
+    const isAuthenticated = !!user; 
 
     useEffect(() => {
         const { '@nextauth.token': token } = parseCookies();
@@ -116,6 +144,12 @@ export function AuthProvider({ children }: AuthProviderProps){
     }
 
     return(
+        /* 
+            Cada objeto Context vem com componente Provider.
+
+            As props que estão declaradas em value são passadas para 
+            os componentes descendentes do Provider (componentes consumidores). 
+        */
         <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut, signUp }}>
             { children }
         </AuthContext.Provider>
