@@ -1,12 +1,8 @@
-import Head from "next/head"
-import Image from "next/image"
-import Link from "next/link"
-
-import styles from '../../../styles/home.module.scss'
-import logoRestaurante from '../../../public/logo-restaurante.png'
-import { Input } from "../../components/ui/Input"
-import { Button } from "../../components/ui/Button"
 import { canSSRAuth } from "../../utils/canSSRAuth"
+import Head from "next/head"
+
+import { Header } from "../../components/Header"
+import styles from '../../../styles/home.module.scss'
 
 export default function Dashboard() {
   return (
@@ -14,6 +10,9 @@ export default function Dashboard() {
       <Head>
         <title>Dashboard</title>
       </Head>
+
+      <Header />
+      
       <div className={styles.containerCenter}>
         <h1>Dashboad</h1>
       </div>
