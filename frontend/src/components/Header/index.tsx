@@ -20,7 +20,8 @@ export function Header() {
 
                 <nav className={styles.menuNav}>
                     <Link href='/category'>Categoria</Link>
-                    <Link href='/product'>Cardápio</Link>
+                    <Link href='/product'>Produto</Link>
+                    <Link href='/product'>Pedido</Link>
                     <button onClick={signOut}>
                         <FiLogOut color='#003459' size={24} />
                     </button>
