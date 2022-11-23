@@ -35,8 +35,8 @@ export default function Product({ categoryList }: CategoryProps) {
     */
 
     const [name, setName] = useState('');
-    const [preco, setPreco] = useState('');
-    const [descricao, setDescricao] = useState('');
+    const [price, setPrice] = useState('');
+    const [description, setDescription] = useState('');
     const [avatarUrl, setAvatarUrl] = useState('');
     const [imageAvatar, setImageAvatar] = useState(null);
     const [categories, setCategories] = useState(categoryList || []);
@@ -66,17 +66,35 @@ export default function Product({ categoryList }: CategoryProps) {
     async function handleRegister(event: FormEvent) {
         event.preventDefault();
         
-        if(name === ''){
-            return;
+        try {
+            const data = new FormData();
+
+
+            if(name === '' || price === '' || imageAvatar === null){
+                toast.error('Preencha todos os campos');
+                return;
+            }
+
+            data.append('name', name);
+            data.append('price', price);
+            data.append('description', description);
+            data.append('file', imageAvatar);
+            data.append('category_id', categories[categorySelected].id);
+    
+            const apiClient = setupAPIClient();
+            await apiClient.post('/product', data);
+    
+            toast.success('Produto cadastrado com sucesso');
+        } catch (error) {
+            console.log(error)
+            toast.error('Erro ao cadastradar produto');
         }
 
-        const apiClient = setupAPIClient();
-        await apiClient.post('/product', {
-            name: name
-        });
-
-        toast.success('Produto cadastrado com sucesso');
         setName('');
+        setPrice('');
+        setDescription('');
+        setImageAvatar(null);
+        setAvatarUrl('');
     }
 
     return (
@@ -135,13 +153,15 @@ export default function Product({ categoryList }: CategoryProps) {
                     type="text"
                     placeholder="Preço"
                     className={styles.input}
-                    value={name}
-                    onChange={ (e) => setPreco(e.target.value) }
+                    value={price}
+                    onChange={ (e) => setPrice(e.target.value) }
                 />
 
                 <textarea 
                     className={styles.input} 
                     placeholder="Descreva o produto..." 
+                    value={description}
+                    onChange={ (e) => setDescription(e.target.value) }
                 />
 
                 <button className={styles.buttonAdd} type="submit">
