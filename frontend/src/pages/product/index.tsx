@@ -9,12 +9,38 @@ import styles from './styles.module.scss'
 import { setupAPIClient } from "../../services/api"
 import { canSSRAuth } from "../../utils/canSSRAuth"
 
-export default function Product() {
+type ItemProps = {
+    id: string;
+    name: string;
+}
+interface CategoryProps {
+    categoryList: ItemProps[];
+}
+
+/*
+    Se estivéssemos utilizando apenas JavaScript 
+    neste projeto, poderíamos deixar a prop apenas
+    como categoryList (sem uma tipagem). Entretanto,
+    como estamos utilizando TypeScript, é necessário
+    criar uma tipagem, a qual foi declarada em
+    ItemProps e CategoryProps. 
+*/
+
+export default function Product({ categoryList }: CategoryProps) {
+    /*
+        Ao executar o console.log(categoryList) aqui 
+        dentro de Product, o resultado é exibido na 
+        aba de desenvolvedor do navegador, ou seja, 
+        no LADO DO CLIENTE.
+    */
+
     const [name, setName] = useState('');
     const [preco, setPreco] = useState('');
     const [descricao, setDescricao] = useState('');
     const [avatarUrl, setAvatarUrl] = useState('');
     const [imageAvatar, setImageAvatar] = useState(null);
+    const [categories, setCategories] = useState(categoryList || []);
+    const [categorySelected, setCategorySelected] = useState(0);
 
     function handleFile(event: ChangeEvent<HTMLInputElement>) {
         if(!event.target.files) {
@@ -32,6 +58,10 @@ export default function Product() {
             setAvatarUrl(URL.createObjectURL(image));
         }
     }
+
+    function handleChangeCategory(event) {
+        setCategorySelected(event.target.value);
+    }
     
     async function handleRegister(event: FormEvent) {
         event.preventDefault();
@@ -45,7 +75,7 @@ export default function Product() {
             name: name
         });
 
-        toast.success('Categoria cadastrada com sucesso');
+        toast.success('Produto cadastrado com sucesso');
         setName('');
     }
 
@@ -83,14 +113,14 @@ export default function Product() {
                     )}
                 </label>
 
-                <select>
-                    <option>
-                        Pizzas
-                    </option>
-
-                    <option>
-                        Sorvetes
-                    </option>
+                <select value={categorySelected} onChange={handleChangeCategory}>
+                    {categories.map((item, index) => {
+                        return(
+                            <option key={item.id} value={index}>
+                                {item.name}
+                            </option>
+                        )
+                    })}
                 </select>
 
                 <input 
@@ -106,7 +136,7 @@ export default function Product() {
                     placeholder="Preço"
                     className={styles.input}
                     value={name}
-                    onChange={ (e) => setName(e.target.value) }
+                    onChange={ (e) => setPreco(e.target.value) }
                 />
 
                 <textarea 
@@ -124,7 +154,25 @@ export default function Product() {
 }
 
 export const getServerSideProps = canSSRAuth(async (ctx) => {
-  return {
-    props: {}
-  }
+    const apiClient = setupAPIClient(ctx);
+
+    const response = await apiClient.get('/category');
+
+    /*
+        Quando executa o console.log(response.data) aqui, 
+        o resultado é mostrado no terminal, ou seja, no
+        LADO DO SERVIDOR.
+
+        O response.data é passado como prop para Product
+        através do categoryList. Ao eecutar o 
+        console.log(categoryList) dentro de Product, o
+        resultado é exibido na aba de desenvolvedor do
+        navegador, ou seja, no LADO DO CLIENTE.
+    */
+
+    return {
+        props: {
+            categoryList: response.data
+        }
+    }
 })
