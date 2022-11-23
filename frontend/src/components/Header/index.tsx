@@ -19,9 +19,10 @@ export function Header() {
                 </Link> 
 
                 <nav className={styles.menuNav}>
+                    <Link href='/dashboard'>Dashboard</Link>
+                    <Link href='/'>Pedido</Link>
                     <Link href='/category'>Categoria</Link>
                     <Link href='/product'>Produto</Link>
-                    <Link href='/product'>Pedido</Link>
                     <button onClick={signOut}>
                         <FiLogOut color='#003459' size={24} />
                     </button>
