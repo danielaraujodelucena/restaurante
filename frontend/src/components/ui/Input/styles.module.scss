@@ -3,12 +3,12 @@
     height: 40px;
     border: 0;
     border-radius: 0.5rem;
-    background-color: var(--mon-yellow-80);
+    background-color: var(--mon-yellow-40);
     color: var(--dark-blue);
     padding: 1rem;
-    border: 1px solid var(--dark-blue);
+    border: 1px solid var(--mon-yellow-80);
 }
 
 .input::placeholder {
-    color: var(--white);
+    color: var(--dark-blue);
 }
