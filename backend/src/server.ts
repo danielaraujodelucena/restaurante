@@ -3,7 +3,17 @@ import 'express-async-errors';
 import cors from 'cors'; 
 import path from 'path';
 
+/* 
+    foi criado um arquivo separado para as rotas, apesar
+    de que elas são criadas utilizando também o express
+*/
 import { router } from './routes';
+
+/*
+    - o backend é acionado via request (através de uma rota)
+    - quem trata as requests/responses é o express
+    - o express está na const app
+*/
 
 const app = express();
 
@@ -16,6 +26,15 @@ app.use(
     '/files',
     express.static(path.resolve(__dirname, '..', 'tmp'))    
 )
+
+/*
+    - toda request é processada nesse arquivo
+    - toda request executará o middleware abaixo
+    - o middleware abaixo é uma função de tratamento de erros
+    - a função next() não é do NodeJs e nem da API Express
+    - o middleware abaixo é o manipulador de erros padrão da API Express
+    - cuida de quaisquer erros que possam ser encontrados no aplicativo
+*/
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     if(err instanceof Error){
@@ -30,4 +49,6 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     })
 })
 
-app.listen(3333, () => console.log('Servidor online'));
+
+// cria o servidor, mas essa criação deve ser sempre na última linha
+app.listen(3333, () => console.log('Servidor online')); 
