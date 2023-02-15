@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from "express";
 import 'express-async-errors';
 import cors from 'cors'; 
 import path from 'path';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocs from './swagger.json'; 
 
 /* 
     foi criado um arquivo separado para as rotas, apesar
@@ -9,15 +11,16 @@ import path from 'path';
 */
 import { router } from './routes';
 
+
 /*
     - o backend é acionado via request (através de uma rota)
     - quem trata as requests/responses é o express
     - o express está na const app
 */
-
 const app = express();
 
 app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(cors());
 
 app.use(router);
