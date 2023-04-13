@@ -11,12 +11,6 @@ interface ProductRequest {
 
 class CreateProductService {
     async execute({name, price, description, banner, category_id}: ProductRequest) {
-        console.log("name 2: ", name);
-        console.log("price 2: ", price);
-        console.log("description 2: ", description);
-        console.log("banner 2: ", banner);
-        console.log("category_id 2: ", category_id);
-
 
         if(!name || !price || !description || !banner || !category_id){
             throw new Error("product incorrect")

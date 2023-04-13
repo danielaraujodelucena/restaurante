@@ -1,18 +1,22 @@
 import Modal from "react-modal"
 import { FiX } from "react-icons/fi"
 
-import { OrderItemProps } from "../../pages/dashboard"
 import styles from "./styles.module.scss"
-import { transcode } from "buffer";
 
-interface ModalOrderProps {
+interface ModalFinishOrderProps {
     isOpen: boolean;
     onRequestClose: () => void;
-    order: OrderItemProps[];
-    handleFinishOrder: (id: string) => void;
+    order_id: string;
+    table: string;
+    sendOrder: () => void;
 }
 
-export function ModalOrder({ isOpen, onRequestClose, order, handleFinishOrder }: ModalOrderProps) {
+export function ModalSendOrder({ 
+    isOpen, 
+    onRequestClose, 
+    order_id, 
+    table,
+    sendOrder }: ModalFinishOrderProps) {
     const customStyles = {
         content: {
             top: '50%',
@@ -24,6 +28,8 @@ export function ModalOrder({ isOpen, onRequestClose, order, handleFinishOrder }:
             backgroundColor: '#EEC77E' 
         }
     }
+
+
 
     return(
         <Modal 
@@ -41,21 +47,14 @@ export function ModalOrder({ isOpen, onRequestClose, order, handleFinishOrder }:
             </button>
 
             <div className={styles.container}>
-                <h2>Detalhes do pedido</h2>
+                <h2>Finalizando</h2>
                 
                 <span className={styles.table}>
-                    Mesa: <strong>{order[0].order.table}</strong> 
+                    Mesa: <strong>{table}</strong> 
                 </span>
-
-                {order.map(item => (
-                    <section key={item.id} className={styles.containerItem}>
-                        <span>{item.amount} - <strong> {item.product.name} </strong></span>
-                        <span className={styles.description}>{item.product.description}</span>
-                    </section>   
-                ))}
-
-                <button className={styles.buttonOrder} onClick={() => handleFinishOrder(order[0].order_id)}>
-                    Concluir pedido
+                {/* {onClick={() => handleFinishOrder(order_id)}} */}
+                <button className={styles.buttonOrder} onClick={sendOrder}>
+                    Enviando pedido
                 </button>
             </div>
         </Modal>

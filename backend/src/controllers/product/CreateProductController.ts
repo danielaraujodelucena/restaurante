@@ -12,12 +12,6 @@ class CreateProductController {
         } else {
             const { filename: banner } = req.file;
 
-            console.log("name: ", name);
-            console.log("price: ", price);
-            console.log("description: ", description);
-            console.log("banner: ", banner);
-            console.log("category_id: ", category_id);
-
             const product = await createProductService.execute({ 
                 name, 
                 price, 
