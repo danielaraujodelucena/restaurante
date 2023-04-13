@@ -9,6 +9,7 @@ interface AuthRequest {
 
 class AuthUserService {
     async execute({ email, password }: AuthRequest) {
+        // verifica se o email já existe no banco de dados
         const user = await prismaClient.user.findFirst({
             where:{
                 email: email
@@ -27,11 +28,14 @@ class AuthUserService {
 
         const token = sign(
             {
+                // informações dentro do token
                 name: user.name,
                 email: user.email
             },
+            // chave global em variável de ambiente
             process.env.JWT_SECRET,
             {
+                //options
                 subject: user.id,
                 expiresIn: '30d'     
             }
